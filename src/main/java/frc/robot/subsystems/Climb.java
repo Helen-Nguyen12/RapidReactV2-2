@@ -61,8 +61,8 @@ public class Climb extends SubsystemBase {
     }
 
     public void pistonRelease() {
-        // m_climbPiston.set(DoubleSolenoid.Value.kForward);
-        System.out.println("HHHEJEK");
+        m_climbPiston.set(DoubleSolenoid.Value.kForward);
+        // System.out.println("HHHEJEK");
     }
 
     public void pistonRetract() {
@@ -73,10 +73,72 @@ public class Climb extends SubsystemBase {
         m_climbValue++;
     }
 
+    public void decreaseStage(){
+        m_climbValue--; 
+    }
+
+    public void cancelClimb() {
+        if (m_climbValue <= 10) {
+            m_climbValue = 0; //Doesn't show unless you push another button by either increasing or decreasing
+            climbMessage = "Restarting Climb Sequence";
+            SmartDashboard.putString("Climb", climbMessage);
+            m_climbPID.setReference(Constants.climbDescendDistance, ControlType.kPosition);
+            pistonRelease();
+        }
+    }
+
+    public void cancelStage() { //One time push button (no need to push climb button after it)
+        //Check the constants and distances to make sure they are the same amount as the previous stage.
+        if (m_climbValue <= 0) {
+            m_climbValue = 0;
+        }
+        else if (m_climbValue == 1) {
+            climbMessage = "Descending Pivot Arms";
+            SmartDashboard.putString("ClimbArms", climbMessage);
+            m_climbPID.setReference(Constants.climbDescendDistance, ControlType.kPosition);
+        }
+        else if (m_climbValue == 2) {
+            climbMessage = "Raising Pivot Arms";
+            SmartDashboard.putString("ClimbArms", climbMessage);
+            m_climbPID.setReference(Constants.climbDistance1, ControlType.kPosition);
+        }
+        else if (m_climbValue == 3) { //Needs to be looked over at.
+            pistonRelease();
+            climbMessage = "Descending Pivot Arms";
+            SmartDashboard.putString("ClimbArms", climbMessage);
+            m_climbPID.setReference(Constants.climbDescendDistance, ControlType.kPosition);
+            pistonRetract();
+            m_climbPID.setReference(Constants.climbDescendDistance, ControlType.kPosition);
+        }
+        else if (m_climbValue == 4) {
+            climbMessage = "Raising Pivot Arms";
+            SmartDashboard.putString("ClimbArms", climbMessage);
+            m_climbPID.setReference(Constants.climbDistance1, ControlType.kPosition);
+        }
+        else if (m_climbValue == 5) {
+            pistonRelease();
+            climbMessage = "Descending Pivot Arms";
+            SmartDashboard.putString("ClimbArms", climbMessage);
+            m_climbPID.setReference(Constants.climbDescendDistance, ControlType.kPosition);
+            pistonRetract();
+            m_climbPID.setReference(Constants.climbDescendDistance, ControlType.kPosition);
+        }
+        else if (m_climbValue == 6) {
+            climbMessage = "Raising Pivot Arms";
+            SmartDashboard.putString("ClimbArms", climbMessage);
+            m_climbPID.setReference(Constants.climbDistance3, ControlType.kPosition);
+        }
+        else {
+            climbMessage = "Raising Pivot Arms";
+            SmartDashboard.putString("ClimbArms", climbMessage);
+            m_climbPID.setReference(Constants.climbDescendDistance, ControlType.kPosition);
+        }
+    }
+
     public void climbSequence() { // If climb is > 0, set to 0 || test with cancelstage- Cannot change to
                                   // Static!!!
         if (m_climbValue <= -1) {
-            int m_climbValue = 0;
+            m_climbValue = 0;
         } else if (m_climbValue == 0) {
             climbMessage = "Ready to raise Pivot Arms?";
             SmartDashboard.putString("Climb", climbMessage);
@@ -95,12 +157,12 @@ public class Climb extends SubsystemBase {
             SmartDashboard.putString("Climb", climbMessage);
         } else if (m_climbValue == 3) { // Piston retracts, extends climb, piston extends, then climb extends again
             pistonRetract();
-            m_climbPiston.set(DoubleSolenoid.Value.kReverse);
+            // m_climbPiston.set(DoubleSolenoid.Value.kReverse);
             climbMessage = "Raising Pivot Arms";
             SmartDashboard.putString("ClimbArms", climbMessage);
             m_climbPID.setReference(Constants.climbDistance2, ControlType.kPosition);
             pistonRelease();
-            m_climbPiston.set(DoubleSolenoid.Value.kForward);
+            // m_climbPiston.set(DoubleSolenoid.Value.kForward);
             m_climbPID.setReference(Constants.climbDistance3, ControlType.kPosition);
             climbMessage = "Ready to descend Pivot Arms?";
             SmartDashboard.putString("Climb", climbMessage);
@@ -112,12 +174,12 @@ public class Climb extends SubsystemBase {
             SmartDashboard.putString("Climb", climbMessage);
         } else if (m_climbValue == 5) { // Piston retracts, extends climb, piston extends, then climb extends again
             pistonRetract();
-            m_climbPiston.set(DoubleSolenoid.Value.kReverse);
+            // m_climbPiston.set(DoubleSolenoid.Value.kReverse);
             climbMessage = "Raising Pivot Arms";
             SmartDashboard.putString("ClimbArms", climbMessage);
             m_climbPID.setReference(Constants.climbDistance2, ControlType.kPosition);
             pistonRelease();
-            m_climbPiston.set(DoubleSolenoid.Value.kForward);
+            // m_climbPiston.set(DoubleSolenoid.Value.kForward);
             m_climbPID.setReference(Constants.climbDistance3, ControlType.kPosition);
             climbMessage = "Ready to descend Pivot Arms?";
             SmartDashboard.putString("Climb", climbMessage);

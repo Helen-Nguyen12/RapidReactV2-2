@@ -18,6 +18,7 @@ import frc.robot.commands.IncreaseStage;
 import frc.robot.commands.Autonomous;
 import frc.robot.commands.CancellationButtonsClimb;
 import frc.robot.commands.CancelClimb;
+import frc.robot.commands.CancelStage;
 import frc.robot.commands.ClimbButtonSequence;
 
 import frc.robot.subsystems.Climb;
@@ -75,11 +76,8 @@ public class RobotContainer {
   public static SparkMaxPIDController climbMotorPID;
 
   public static Command ClimbButtonSequence;
-  public Command climbSequence;
   public static Command CancelClimb;
-  public Command cancelClimb;
   public static Command AddOne;
-  public Command addOne;
 
   public static Intake intake;
   public static Shooter shooter; // Creates the subsytem for shooter
@@ -93,6 +91,7 @@ public class RobotContainer {
   public JoystickButton addButton;
   public JoystickButton cancellationButton1;
   public JoystickButton cancellationButton2;
+  public JoystickButton cancelStageButton;
 
   public Joystick joystickDriver; // Controller 0
   public static Joystick joystickShooter; // Controller 1
@@ -172,22 +171,19 @@ public class RobotContainer {
 
     // Climb Button Configured
     climbButton = new JoystickButton(joystickShooter, Constants.climbButtonNumber);
-    // climbSequence = new ClimbButtonSequence(climb);
-    // climbButton.whileActiveOnce(climbSequence);
     climbButton.whileActiveOnce(new ClimbButtonSequence(climb));
 
-    // addButton = new JoystickButton(joystickShooter, Constants.addButtonNumber);
     addButton = new JoystickButton(joystickShooter, Constants.addButtonNumber);
-
-    addOne = new IncreaseStage(climb);
-    addButton.whileActiveOnce(addOne);
+    addButton.whileActiveOnce(new IncreaseStage(climb));
 
     cancellationButton1 = new JoystickButton(joystickShooter, Constants.cancellationButton1);
     cancellationButton2 = new JoystickButton(joystickShooter, Constants.cancellationButton2);
     CancellationButtonsClimb cancellationButtons = new CancellationButtonsClimb(cancellationButton1,
         cancellationButton2);
-    cancelClimb = new CancelClimb(climb);
-    cancellationButtons.whenPressed(cancelClimb);
+    cancellationButtons.whenPressed(new CancelClimb(climb));
+
+    cancelStageButton = new JoystickButton(joystickShooter, Constants.cancelStageButtonNumber);
+    cancelStageButton.whileActiveOnce(new CancelStage(climb));
 
     // Need to add encoders, when it is at the bottom you have to make sure the
     // encoders is at 0.

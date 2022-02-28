@@ -37,9 +37,10 @@ public final class Constants //Note for self: Define integers here. Button numbe
      public static final int kPistonClimbChannel = 6; //For piston
      public static final int kPistonReverseClimbChannel = 7; //For piston
      public static final int climbButtonNumber = 3; //For climb Button on the Gamepad
-     public static final int cancellationButton1 = 1; //For climb's cancellation button on the Gamepad
-     public static final int cancellationButton2 = 2; //For climb's cancellation button on the Gamepad
-     public static final int addButtonNumber = 5; //For climb's adding one button on the Gamepad
+     public static final int cancellationButton1 = 5; //For climb's cancellation button on the Gamepad
+     public static final int cancellationButton2 = 6; //For climb's cancellation button on the Gamepad
+     public static final int addButtonNumber = 1; //For climb's adding one button on the Gamepad
+     public static final int cancelStageButtonNumber = 2; //For climb's decrease stage button on the Gamepad
      public static final double ClimbMotorSpeed = 1.0; //Sets speed for climb motor
      public static final double InverseClimbMotorSpeed = -1.0; //Sets speed for climb motor
      public static final int upperClimbLimitSwitchChannel = 1; //Upper Limit Switch Channel
