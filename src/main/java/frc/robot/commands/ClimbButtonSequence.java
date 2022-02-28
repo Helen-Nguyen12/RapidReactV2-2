@@ -17,27 +17,27 @@ public class ClimbButtonSequence extends CommandBase {
   /** Creates a new ClimbButtonSequence. */
   private Climb m_climb;
 
-  
   public ClimbButtonSequence(Climb climb) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climb = climb;
+    m_climb = new Climb();
     addRequirements(m_climb);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-
-// Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    Climb.climbSequence();
+  public void initialize() {
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    m_climb.climbSequence();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
